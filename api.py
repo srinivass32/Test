@@ -1,5 +1,5 @@
 import flask
-from flask.json import jsonify
+from flask.json import jsonify, request
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
@@ -10,7 +10,7 @@ books = [
      'title': 'A Fire Upon the Deep',
      'author': 'Vernor Vinge',
      'first_sentence': 'The coldsleep itself was dreamless.',
-     'year_published': '1992'},
+     'published': '1992'},
     {'id': 1,
      'title': 'The Ones Who Walk Away From Omelas',
      'author': 'Ursula K. Le Guin',
@@ -30,4 +30,20 @@ def home():
 @app.route('/api/v1/resources/books/all', methods=['GET'])
 def ai_all():
     return jsonify(books)
+
+@app.route('/api/v1/resources/books/', methods=['GET'])
+def api_id():
+    if 'published' in request.args:
+        pub = request.args['published']
+
+    else:
+        return "Error : Published year not provided"
+
+    results = []
+    for i in books:
+        if i['published'] == pub:
+            results.append(i)
+
+    return jsonify(results)
+
 app.run()
