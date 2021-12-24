@@ -40,10 +40,12 @@ def api_id():
         return "Error : Published year not provided"
 
     results = []
+
     for i in books:
         if i['published'] == pub:
             results.append(i)
-
-    return jsonify(results)
-
+    if results:
+        return jsonify(results)
+    else:
+        return "No book found"
 app.run()
