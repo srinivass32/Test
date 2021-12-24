@@ -33,6 +33,7 @@ def ai_all():
 
 @app.route('/api/v1/resources/books/', methods=['GET'])
 def api_id():
+    print(request.args)
     if 'published' in request.args:
         pub = request.args['published']
 
