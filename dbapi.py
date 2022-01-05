@@ -1,4 +1,4 @@
-from dblib import addtodb, searchbyid
+from dblib import add_user, search_id
 import flask
 from flask import request
 import json, traceback
@@ -17,7 +17,7 @@ def adddb():
     uname = request.form['username']
     email = request.form['emailid']
     try:
-        if addtodb(userid,uname,email):
+        if add_user(userid,uname,email):
             result["status"] = "Success"
             result_json = json.dumps(result)
             return result_json
@@ -35,7 +35,7 @@ def searchdb():
     id = int(request.form['userid'])
     try:
         result["status"] = 1
-        result["searchresult"] = searchbyid(id)
+        result["searchresult"] = search_id(id)
         result_json = json.dumps(result)
         return result_json
     except Exception as e:
