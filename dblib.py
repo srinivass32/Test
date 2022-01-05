@@ -44,12 +44,12 @@ def search_id(userid):
         with conn.cursor() as cur:
             query = """SELECT * FROM srinivass_user WHERE userid = '%s'"""
             cur.execute(query,(userid,))
-            x = cur.fetchone()
+            user_data = cur.fetchone()
     except Exception as e:
         print("DB Error :", str(e))
         print("Error Data :", query,userid)
         print(traceback.format_exc)          
     finally:
         conn.close()    
-    return x
+    return user_data
 
