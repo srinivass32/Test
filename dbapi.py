@@ -13,10 +13,10 @@ def home():
 @app.route('/addtodb', methods=['POST'])
 def adddb():
     result = {}
-    userid = int(request.form['userid'])
-    uname = request.form['username']
-    email = request.form['emailid']
     try:
+        userid = int(request.form['userid'])
+        uname = request.form['username']
+        email = request.form['emailid']
         if add_user(userid,uname,email):
             result["status"] = "Success"
             result_json = json.dumps(result)
@@ -32,8 +32,8 @@ def adddb():
 @app.route('/searchbyid', methods=['POST'])
 def searchdb():
     result = {}
-    id = int(request.form['userid'])
     try:
+        id = int(request.form['userid'])
         result["status"] = 1
         result["searchresult"] = search_id(id)
         result_json = json.dumps(result)
@@ -45,5 +45,4 @@ def searchdb():
         result['errorMsg'] = str(e)
         result_json = json.dumps(result)
         return str(result_json) 
-
 app.run()

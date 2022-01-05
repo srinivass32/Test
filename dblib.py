@@ -1,3 +1,4 @@
+import traceback
 import pymysql
 def get_db_details():
     dbdetails = {}
@@ -19,22 +20,36 @@ def db_connection(dbdetails):
     return connection
 
 def add_user(userid,username,email):
-    dbdetails = get_db_details()
-    conn = db_connection(dbdetails)
-    with conn.cursor() as cur:
-        query = """INSERT INTO srinivass_user(userid,username,email) VALUES(%s,%s,%s)"""
-        cur.execute(query,(userid,username,email))
-        conn.commit()
-    conn.close()    
-    return(True)        
+    status = True
+    try:
+        dbdetails = get_db_details()
+        conn = db_connection(dbdetails)
+        with conn.cursor() as cur:
+            query = """INSERT INTO srinivass_user(userid,username,email) VALUES(%s,%s,%s)"""
+            cur.execute(query,(userid,username,email))
+            conn.commit()
+    except Exception as e:
+        print("DB Error :", str(e))
+        print("Error Data :", query,userid,username,email)
+        print(traceback.format_exc)     
+        status = False   
+    finally:    
+        conn.close()    
+    return(status)        
 
 def search_id(userid):
-    dbdetails = get_db_details()
-    conn = db_connection(dbdetails)
-    with conn.cursor() as cur:
-        query = """SELECT * FROM srinivass_user WHERE userid = '%s'"""
-        cur.execute(query,(userid,))
-        x = cur.fetchone()
-    conn.close()    
+    try:
+        dbdetails = get_db_details()
+        conn = db_connection(dbdetails)
+        with conn.cursor() as cur:
+            query = """SELECT * FROM srinivass_user WHERE userid = '%s'"""
+            cur.execute(query,(userid,))
+            x = cur.fetchone()
+    except Exception as e:
+        print("DB Error :", str(e))
+        print("Error Data :", query,userid)
+        print(traceback.format_exc)          
+    finally:
+        conn.close()    
     return x
 
