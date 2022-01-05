@@ -25,6 +25,7 @@ def add_user(userid,username,email):
         query = """INSERT INTO srinivass_user(userid,username,email) VALUES(%s,%s,%s)"""
         cur.execute(query,(userid,username,email))
         conn.commit()
+    conn.close()    
     return(True)        
 
 def search_id(userid):
@@ -34,5 +35,6 @@ def search_id(userid):
         query = """SELECT * FROM srinivass_user WHERE userid = '%s'"""
         cur.execute(query,(userid,))
         x = cur.fetchone()
+    conn.close()    
     return x
 
